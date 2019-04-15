@@ -4,4 +4,5 @@ com/sambcode/model/Producto.class
 com/sambcode/model/DetalleVenta.class
 com/sambcode/model/Persona.class
 com/sambcode/bean/PersonaBean.class
+com/sambcode/converter/SexoConverter.class
 com/sambcode/dao/PersonaDAO.class

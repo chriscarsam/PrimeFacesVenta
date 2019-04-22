@@ -14,13 +14,13 @@
         <ui:composition template="./WEB-INF/templates/plantilla.xhtml">
 
             <ui:define name="content">
+                <f:event type="preRenderView" listener="#{personaBean.listar('F')}" />
                 <p:growl id="msj" autoUpdate="true" />
 
                 <h:form id="frm">
 
                     <p:commandButton value="Nuevo" oncomplete="PF('wdlgDatos').show();" actionListener="#{personaBean.setAccion('Registrar')}" update=":dlgDatos" />
-                    <p:commandButton value="Listar" actionListener="#{personaBean.listar()}" update="data" />
-
+                   
                     <p:dataTable id="data" value="#{personaBean.lstPersonas}" var="persona">
                         <p:column headerText="Nombre">
                             <p:outputLabel value="#{persona.nombre}" />

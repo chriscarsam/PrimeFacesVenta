@@ -6,6 +6,7 @@ import com.sambcode.model.Persona;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 @ViewScoped
@@ -40,6 +41,12 @@ public class PersonaBean {
         this.persona = persona;
     }
     
+    private boolean isPostBack(){
+        boolean rpta;
+        rpta = FacesContext.getCurrentInstance().isPostback();
+        return rpta;
+    }
+    
     public void opera() throws Exception{
         switch(accion){
             case "Registrar":
@@ -65,7 +72,7 @@ public class PersonaBean {
         try {
             dao = new PersonaDAO();
             dao.registrar(persona);
-            this.listar();
+            this.listar("V");
         } catch (Exception e) {
             throw e;
         }
@@ -77,18 +84,27 @@ public class PersonaBean {
         try {
             dao = new PersonaDAO();
             dao.modificar(persona);
-            this.listar();
+            this.listar("V");
         } catch (Exception e) {
             throw e;
         }
     }
     
-    public void listar() throws Exception{
+    public void listar(String valor) throws Exception{
         PersonaDAO dao;
         
         try {
-            dao = new PersonaDAO();
-            lstPersonas = dao.listar();
+            if(valor.equals('F')){
+                if(isPostBack() == false){
+                dao = new PersonaDAO();
+                lstPersonas = dao.listar();
+            }
+            }else{
+                dao = new PersonaDAO();
+                lstPersonas = dao.listar();
+            }
+            
+            
         } catch (Exception e) {
             throw e;
         }
@@ -117,7 +133,7 @@ public class PersonaBean {
         try {
             dao = new PersonaDAO();
             dao.eliminar(per);
-            this.listar();
+            this.listar("V");
         } catch (Exception e) {
             throw e;
         }

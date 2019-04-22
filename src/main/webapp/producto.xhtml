@@ -14,13 +14,13 @@
         <ui:composition template="./WEB-INF/templates/plantilla.xhtml">
 
             <ui:define name="content">
+                <f:event type="preRenderView" listener="#{productoBean.listar()}" />
                 <p:growl id="msj" autoUpdate="true" />
 
                 <h:form id="frm">
 
                     <p:commandButton value="Nuevo" oncomplete="PF('wdlgDatos').show();" actionListener="#{productoBean.setAccion('Registrar')}" update=":dlgDatos" />
-                    <p:commandButton value="Listar" actionListener="#{productoBean.listar()}" update="data" />
-
+                    
                     <p:dataTable id="data" value="#{productoBean.lstProductos}" var="producto">
                         <p:column headerText="Nombre">
                             <p:outputLabel value="#{producto.nombre}" />

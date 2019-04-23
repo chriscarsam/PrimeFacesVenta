@@ -6,6 +6,7 @@ import com.sambcode.model.Producto;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean
 @ViewScoped
@@ -40,6 +41,12 @@ public class ProductoBean {
         this.producto = producto;
     }
     
+    private boolean isPostBack(){
+        boolean rpta;
+        rpta = FacesContext.getCurrentInstance().isPostback();
+        return rpta;
+    }
+    
     public void opera() throws Exception{
         switch(accion){
             case "Registrar":
@@ -65,7 +72,7 @@ public class ProductoBean {
         try {
             dao = new ProductoDAO();
             dao.registrar(producto);
-            this.listar();
+            this.listar("V");
         } catch (Exception e) {
             throw e;
         }
@@ -77,18 +84,26 @@ public class ProductoBean {
         try {
             dao = new ProductoDAO();
             dao.modificar(producto);
-            this.listar();
+            this.listar("V");
         } catch (Exception e) {
             throw e;
         }
     }
     
-    public void listar() throws Exception{
+    public void listar(String valor) throws Exception{
         ProductoDAO dao;
         
         try {
-            dao = new ProductoDAO();
-            lstProductos = dao.listar();
+            if(valor.equals("F")){
+                if(isPostBack() == false){
+                dao = new ProductoDAO();
+                lstProductos = dao.listar();
+            }
+            }else{
+                dao = new ProductoDAO();
+                lstProductos = dao.listar();
+            }            
+            
         } catch (Exception e) {
             throw e;
         }
@@ -117,7 +132,7 @@ public class ProductoBean {
         try {
             dao = new ProductoDAO();
             dao.eliminar(pro);
-            this.listar();
+            this.listar("V");
         } catch (Exception e) {
             throw e;
         }
